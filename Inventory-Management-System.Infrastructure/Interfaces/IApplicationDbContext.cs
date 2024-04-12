@@ -14,6 +14,11 @@ namespace Inventory_Management_System.Infrastructure.Interfaces
         public DbSet<User> Users { get; }
         public DbSet<Role> Roles { get; }
         public DbSet<Status> Statuses { get; }
+        public DbSet<UsersOTP> UsersOTPs { get; }
+
+
+
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         DbSet<T> GetDbSet<T>() where T : BaseEntity;
     }

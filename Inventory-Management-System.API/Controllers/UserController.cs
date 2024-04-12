@@ -29,5 +29,19 @@ namespace Inventory_Management_System.API.Controllers
             var loginResult = await Mediator.Send(req);
             return HandleResult(loginResult);
         }
+
+        [HttpPost("ForgotPassword")]
+        public async Task<ActionResult<ResponseVm<ForgotPasswordResponseVM>>> ForgotPassword([FromQuery] ForgotPasswordCommand command)
+        {
+            var loginResult = await Mediator.Send(command);
+            return HandleResult(loginResult);
+        }
+
+        [HttpPost("SendUsersOTP")]
+        public async Task<ActionResult<ResponseVm<SendUserOTPVm>>> SendUsersOTP([FromQuery] SendUserOTPCommand command)
+        {
+            var loginResult = await Mediator.Send(command);
+            return HandleResult(loginResult);
+        }
     }
 }

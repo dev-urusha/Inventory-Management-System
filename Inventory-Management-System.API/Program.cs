@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Castle.Core.Smtp;
+using Inventory_Management_System.Application.Features.UserFeatures.Commands;
+using Inventory_Management_System.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +44,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+//builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+//builder.Services.AddScoped<SendEmailService>();
+//builder.Services.AddSingleton<IEmailSender, SendEmailService>();
 
 builder.Services.AddControllers();
 
