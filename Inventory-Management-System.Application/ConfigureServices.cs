@@ -2,6 +2,7 @@
 //namespace Inventory_Management_System.Application;
 using Castle.Core.Smtp;
 using Inventory_Management_System.Application.Common.Response;
+using Inventory_Management_System.Application.Features.ProductFeatures.Commands;
 using Inventory_Management_System.Application.Features.RoleFeatures.Commands;
 using Inventory_Management_System.Application.Features.UserFeatures.Commands;
 using Inventory_Management_System.Application.Features.UserFeatures.Queries;
@@ -21,6 +22,7 @@ public static class ConfigureServices
         services.AddTransient<IRequestHandler<GetLoginUserQuery, ResponseVm<LoginVM>>, GetLoginUserQueryHandler>();
         services.AddTransient<IRequestHandler<ForgotPasswordCommand, ResponseVm<ForgotPasswordResponseVM>>, ForgotPasswordCommandHandler>();
         services.AddTransient<IRequestHandler<SendUserOTPCommand, ResponseVm<SendUserOTPVm>>, SendUserOTPCommandHandler>();
+        services.AddTransient<IRequestHandler<AddOrUpdateOrDeleteProduct, ResponseVm<AddOrUpdateOrDeleteProductVm>>, AddOrUpdateOrDeleteProductHandler>();
 
         services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
         services.AddScoped<SendEmailService>();

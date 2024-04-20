@@ -20,6 +20,10 @@ namespace Inventory_Management_System.Infrastructure.Services
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<Status> Statuses => Set<Status>();
         public DbSet<UsersOTP> UsersOTPs => Set<UsersOTP>();
+        public DbSet<StockKeepingUnit> StockKeepingUnits => Set<StockKeepingUnit>();
+        public DbSet<ProductCategory> ProductCategories => Set<ProductCategory>();
+        public DbSet<ProductSupplier> ProductSuppliers => Set<ProductSupplier>();
+        public DbSet<Product> Products => Set<Product>();
 
 
         public virtual DbSet<T> GetDbSet<T>() where T : BaseEntity

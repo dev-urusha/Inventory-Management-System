@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Inventory-Management-System.Infrastructure\Inventory-Management-System.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\ProductFeatures\Queries\" />
+  </ItemGroup>
+
 </Project>

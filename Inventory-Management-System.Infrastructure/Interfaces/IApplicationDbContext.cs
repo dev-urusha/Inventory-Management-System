@@ -15,8 +15,10 @@ namespace Inventory_Management_System.Infrastructure.Interfaces
         public DbSet<Role> Roles { get; }
         public DbSet<Status> Statuses { get; }
         public DbSet<UsersOTP> UsersOTPs { get; }
-
-
+        public DbSet<StockKeepingUnit> StockKeepingUnits { get; }
+        public DbSet<ProductCategory> ProductCategories { get; }
+        public DbSet<ProductSupplier> ProductSuppliers { get; }
+        public DbSet<Product> Products { get; }
 
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
