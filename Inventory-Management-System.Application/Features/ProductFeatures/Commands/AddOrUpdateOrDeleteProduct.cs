@@ -132,7 +132,7 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Comma
             catch (Exception ex)
             {
                 _logger.LogError($"Logged.Error : AddOrUpdateOrDeleteProductHandler {0}", ex.Message);
-                return Return400(new ResponseMessage() { Name = "Error", Description = ex.Message, Status = ResponseStatus.Success });
+                return Return400(new ResponseMessage() { Name = "Error", Description = ex.Message, Status = ResponseStatus.Error });
             }
             //finally(cancellationToken) 
             //{
