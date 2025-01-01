@@ -23,21 +23,21 @@ namespace Inventory_Management_System.Application.Features.ProductSupplierFeatur
         public int? Phone { get; set; }
         public string? AddressLineOne { get; set; }
         public string? AddressLineTwo { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Country { get; set; }
-        public string PostalCode { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
+        public string? Country { get; set; }
+        public string? PostalCode { get; set; }
     }
     #endregion
 
     #region Request Model
-    public class GetAllProductSupplierQuery : IRequest<ResponseVm<GetAllProductSupplierResponseVM>>
+    public class GetAllProductSupplierQuery : IRequest<ResponseVm<List<GetAllProductSupplierResponseVM>>>
     {
     }
     #endregion
 
     #region Handler
-    public class GetAllProductSupplierQueryHandler : ResponseWrapper<GetAllProductSupplierResponseVM>, IRequestHandler<GetAllProductSupplierQuery, ResponseVm<GetAllProductSupplierResponseVM>>
+    public class GetAllProductSupplierQueryHandler : ResponseWrapper<List<GetAllProductSupplierResponseVM>>, IRequestHandler<GetAllProductSupplierQuery, ResponseVm<List<GetAllProductSupplierResponseVM>>>
     {
         private readonly IApplicationDbContext _context;
         private readonly ILogger<GetAllProductSupplierQueryHandler> _logger;
@@ -48,24 +48,26 @@ namespace Inventory_Management_System.Application.Features.ProductSupplierFeatur
             _logger = logger;
         }
 
-        public async Task<ResponseVm<GetAllProductSupplierResponseVM>> Handle(GetAllProductSupplierQuery query, CancellationToken cancellationToken)
+        public async Task<ResponseVm<List<GetAllProductSupplierResponseVM>>> Handle(GetAllProductSupplierQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var responseData = await (from productSupplier in _context.ProductSuppliers.Where(x => !x.IsDeleted)
+                var responseData = await (from productSupplier in _context.ProductSuppliers
+                                          where !productSupplier.IsDeleted
                                           select new GetAllProductSupplierResponseVM()
                                           {
                                               Id = productSupplier.Id,
-                                              BrandName = productSupplier.BrandName,
-                                              DistributorName = productSupplier.DistributorName,
-                                              Email = productSupplier.Email,
-                                              Phone = productSupplier.Phone,
-                                              AddressLineOne = productSupplier.AddressLineOne,
-                                              AddressLineTwo = productSupplier.AddressLineTwo,
-                                              City = productSupplier.City,
-                                              State = productSupplier.State,
-                                              Country = productSupplier.Country,
-                                              PostalCode = productSupplier.PostalCode,
+                                              BrandName = productSupplier.BrandName ?? string.Empty,
+                                              DistributorName = productSupplier.DistributorName ?? string.Empty,
+                                              Email = productSupplier.Email ?? string.Empty,
+                                              Phone = productSupplier.Phone ?? 0,
+                                              AddressLineOne = productSupplier.AddressLineOne ?? string.Empty,
+                                              AddressLineTwo = productSupplier.AddressLineTwo ?? string.Empty,
+                                              City = productSupplier.City ?? string.Empty,
+                                              State = productSupplier.State ?? string.Empty,
+                                              Country = productSupplier.Country ?? string.Empty,
+                                              PostalCode = productSupplier.PostalCode ?? string.Empty
+
                                           }).ToListAsync();
 
                 return Return200WithData(responseData, new ResponseMessage() { Description = "Product suppliers data are fetched successfully.", Name = "Success", Status = ResponseStatus.Success });

@@ -37,13 +37,13 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Queri
     #endregion
 
     #region Request Model
-    public class GetAllProductsQuery : IRequest<ResponseVm<GetAllProductsResponseVM>>
+    public class GetAllProductsQuery : IRequest<ResponseVm<List<GetAllProductsResponseVM>>>
     {
     }
     #endregion
 
     #region Handler
-    public class GetAllProductsQueryHandler : ResponseWrapper<GetAllProductsResponseVM>, IRequestHandler<GetAllProductsQuery, ResponseVm<GetAllProductsResponseVM>>
+    public class GetAllProductsQueryHandler : ResponseWrapper<List<GetAllProductsResponseVM>>, IRequestHandler<GetAllProductsQuery, ResponseVm<List<GetAllProductsResponseVM>>>
     {
         private readonly IApplicationDbContext _context;
         private readonly ILogger<GetAllProductsQueryHandler> _logger;
@@ -54,7 +54,7 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Queri
             _logger = logger;
         }
 
-        public async Task<ResponseVm<GetAllProductsResponseVM>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseVm<List<GetAllProductsResponseVM>>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
             try
             {

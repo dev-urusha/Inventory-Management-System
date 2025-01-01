@@ -35,7 +35,7 @@ namespace Inventory_Management_System.Application.Features.ProductSupplierFeatur
     #region Request Class
     public class AddOrUpdateOrDeleteProductSupplier : IRequest<ResponseVm<AddOrUpdateOrDeleteProductSupplierResponseVM>>
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         public string? DistributorName { get; set; }
         public string? BrandName { get; set; }
         public string? Email { get; set; }

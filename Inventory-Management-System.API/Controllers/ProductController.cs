@@ -24,7 +24,7 @@ namespace Inventory_Management_System.API.Controllers
 
         [Route("GetAllProducts")]
         [HttpGet]
-        public async Task<ResponseVm<GetAllProductsResponseVM>> GetAllProducts([FromQuery] GetAllProductsQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseVm<List<GetAllProductsResponseVM>>> GetAllProducts([FromQuery] GetAllProductsQuery request, CancellationToken cancellationToken)
         {
             var responseVm = await _mediator.Send(request);
             return responseVm;

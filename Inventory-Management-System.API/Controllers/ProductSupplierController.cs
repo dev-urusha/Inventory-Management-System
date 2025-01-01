@@ -18,7 +18,7 @@ namespace Inventory_Management_System.API.Controllers
 
         [Route("AddOrUpdateProductSupplier")]
         [HttpPost]
-        public async Task<ResponseVm<AddOrUpdateOrDeleteProductSupplierResponseVM>> AddOrUpdateProduct([FromBody] AddOrUpdateOrDeleteProductSupplier request, CancellationToken cancellationToken)
+        public async Task<ResponseVm<AddOrUpdateOrDeleteProductSupplierResponseVM>> AddOrUpdateProductSupplier([FromBody] AddOrUpdateOrDeleteProductSupplier request, CancellationToken cancellationToken)
         {
             var responseVm = await _mediator.Send(request);
             return responseVm;
@@ -26,7 +26,7 @@ namespace Inventory_Management_System.API.Controllers
 
         [Route("GetAllProductSuppliers")]
         [HttpGet]
-        public async Task<ResponseVm<GetAllProductSupplierResponseVM>> GetAllProductSuppliers([FromQuery] GetAllProductSupplierQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseVm<List<GetAllProductSupplierResponseVM>>> GetAllProductSuppliers([FromQuery] GetAllProductSupplierQuery request, CancellationToken cancellationToken)
         {
             var responseVm = await _mediator.Send(request);
             return responseVm;
