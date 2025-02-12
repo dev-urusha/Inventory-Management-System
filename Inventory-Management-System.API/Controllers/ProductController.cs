@@ -29,5 +29,15 @@ namespace Inventory_Management_System.API.Controllers
             var responseVm = await _mediator.Send(request);
             return responseVm;
         }
+
+        [Route("ExportProducts")]
+        [HttpGet]
+        public async Task<IActionResult> ExportProducts([FromQuery] ExportProducts request, CancellationToken ct)
+        {
+            var responseVm = await _mediator.Send(request);
+            var fileName = "Products" + "_" + DateTime.UtcNow + ".xlsx";
+            return File(responseVm.Data.File, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+        }
+
     }
 }

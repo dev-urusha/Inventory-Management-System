@@ -9,6 +9,7 @@ using Inventory_Management_System.Application.Features.ProductSupplierFeatures.Q
 using Inventory_Management_System.Application.Features.RoleFeatures.Commands;
 using Inventory_Management_System.Application.Features.UserFeatures.Commands;
 using Inventory_Management_System.Application.Features.UserFeatures.Queries;
+using Inventory_Management_System.Application.Interfaces;
 using Inventory_Management_System.Application.Services;
 using Inventory_Management_System.Domain;
 using MediatR;
@@ -29,10 +30,12 @@ public static class ConfigureServices
         services.AddTransient<IRequestHandler<AddOrUpdateOrDeleteProductSupplier, ResponseVm<AddOrUpdateOrDeleteProductSupplierResponseVM>>, AddOrUpdateOrDeleteProductSupplierHandler>();
         services.AddTransient<IRequestHandler<GetAllProductSupplierQuery, ResponseVm<List<GetAllProductSupplierResponseVM>>>, GetAllProductSupplierQueryHandler>();
         services.AddTransient<IRequestHandler<GetAllProductsQuery, ResponseVm<List<GetAllProductsResponseVM>>>, GetAllProductsQueryHandler>();
+        services.AddTransient<IRequestHandler<ExportProducts, ResponseVm<ExportProductsResponseVM>>, ExportProductsHandler>();
 
         services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
         services.AddScoped<SendEmailService>();
         services.AddSingleton<IEmailSender, SendEmailService>();
+        services.AddSingleton<IExportExcelService, ExportExcelService>();
 
         return services;
     }
