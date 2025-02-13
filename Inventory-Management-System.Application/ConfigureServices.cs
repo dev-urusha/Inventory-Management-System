@@ -31,6 +31,7 @@ public static class ConfigureServices
         services.AddTransient<IRequestHandler<GetAllProductSupplierQuery, ResponseVm<List<GetAllProductSupplierResponseVM>>>, GetAllProductSupplierQueryHandler>();
         services.AddTransient<IRequestHandler<GetAllProductsQuery, ResponseVm<List<GetAllProductsResponseVM>>>, GetAllProductsQueryHandler>();
         services.AddTransient<IRequestHandler<ExportProducts, ResponseVm<ExportProductsResponseVM>>, ExportProductsHandler>();
+        services.AddTransient<IRequestHandler<GetProductByIdQuery, ResponseVm<GetProductByIdQueryResponseVM>>, GetProductByIdQueryHandler>();
 
         services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
         services.AddScoped<SendEmailService>();

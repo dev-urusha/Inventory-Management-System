@@ -39,5 +39,13 @@ namespace Inventory_Management_System.API.Controllers
             return File(responseVm.Data.File, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
         }
 
+        [Route("GetProductById")]
+        [HttpGet]
+        public async Task<ResponseVm<GetProductByIdQueryResponseVM>> GetProductById([FromQuery] GetProductByIdQuery request, CancellationToken cancellationToken)
+        {
+            var responseVm = await _mediator.Send(request);
+            return responseVm;
+        }
+
     }
 }
