@@ -31,5 +31,12 @@ namespace Inventory_Management_System.Domain
         [ForeignKey(nameof(Supplier))]
         public Guid? SupplierId { get; set; }
         public ProductSupplier? Supplier { get; set; }
+
+        public string? ImageUrl { get; set; }
+        public string? ImageName { get; set; }
+        public string? ImageType { get; set; }
+
+        public bool? HasLimitedStock { get; set; }
+
     }
 }

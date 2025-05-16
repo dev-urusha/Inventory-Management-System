@@ -3,6 +3,7 @@ using Inventory_Management_System.Domain;
 using Inventory_Management_System.Infrastructure.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using SendGrid;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,10 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Comma
         public Guid? CategoryId { get; set; }
         public Guid? SupplierId { get; set; }
         public bool IsDeleted { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? ImageName { get; set; }
+        public string? ImageType { get; set; }
+
     }
 
     public class AddOrUpdateOrDeleteProductHandler : ResponseWrapper<AddOrUpdateOrDeleteProductVm>, IRequestHandler<AddOrUpdateOrDeleteProduct, ResponseVm<AddOrUpdateOrDeleteProductVm>>
@@ -85,7 +90,7 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Comma
 
                 if (product != null)
                 {
-                    product.Name = request.Name;
+                    product.Name = request.Name != null ? request.Name : product.Name ;
                     product.Description = request.Description;
                     product.CategoryId = request.CategoryId;
                     product.SupplierId = request.SupplierId;
@@ -96,6 +101,9 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Comma
                     product.TotalPrice = request.TotalQuantities * request.PricePerQuantity;
                     product.IsDeleted = request.IsDeleted;
                     product.DeletedAt = request.IsDeleted ? DateTime.UtcNow : null;
+                    product.ImageUrl = request.ImageUrl;
+                    product.ImageName = request.ImageName;
+                    product.ImageType = request.ImageType;
 
                     if (request.Id != null && request.Id != Guid.Empty)
                     {
@@ -104,6 +112,26 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Comma
                 }
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
+                #endregion
+
+                #region Call UploadProductImageFunction to upload image
+
+                using var client = new HttpClient();
+                var requestUrl = $"http://localhost:7177/api/products/{product.Id}/upload-image"; // Replace with actual Azure Function URL when deployed
+
+                var imageData = new
+                {
+                    ImageName = product.ImageName,
+                    ImageType = product.ImageType,
+                    ImageURL = product.ImageUrl
+                };
+
+                var jsonContent = new StringContent(JsonConvert.SerializeObject(imageData), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(requestUrl, jsonContent);
+
+                if (!response.IsSuccessStatusCode)
+                    return Return400(new ResponseMessage() { Name = "Error:UploadProductImageFunction", Description = "Failed to upload image", Status = ResponseStatus.Error }); ;
+
                 #endregion
 
                 #region Response Model
@@ -134,11 +162,6 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Comma
                 _logger.LogError($"Logged.Error : AddOrUpdateOrDeleteProductHandler {0}", ex.Message);
                 return Return400(new ResponseMessage() { Name = "Error", Description = ex.Message, Status = ResponseStatus.Error });
             }
-            //finally(cancellationToken) 
-            //{
-
-            //}
-
         }
 
     }

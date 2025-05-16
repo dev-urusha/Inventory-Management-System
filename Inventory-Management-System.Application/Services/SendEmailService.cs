@@ -34,7 +34,7 @@ namespace Inventory_Management_System.Application.Services
 
         public void Send(MailMessage receiverAddress)
         {
-            throw new NotSupportedException();
+            _smtpClient.SendMailAsync(receiverAddress);
         }
 
         public void Send(IEnumerable<MailMessage> receiverAddresses)
