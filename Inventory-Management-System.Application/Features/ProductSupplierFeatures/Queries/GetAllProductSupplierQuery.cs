@@ -1,5 +1,6 @@
 ﻿using Inventory_Management_System.Application.Common.Response;
 using Inventory_Management_System.Application.Features.ProductFeatures.Queries;
+using Inventory_Management_System.Domain.Common;
 using Inventory_Management_System.Infrastructure.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ namespace Inventory_Management_System.Application.Features.ProductSupplierFeatur
 {
 
     #region Response Model
-    public class GetAllProductSupplierResponseVM
+    public class GetAllProductSupplierResponseVM:BaseEntity
     {
         public Guid Id { get; set; }
         public string? DistributorName { get; set; }
@@ -27,6 +28,8 @@ namespace Inventory_Management_System.Application.Features.ProductSupplierFeatur
         public string? State { get; set; }
         public string? Country { get; set; }
         public string? PostalCode { get; set; }
+        public string? IsDeleted { get; set; }
+
     }
     #endregion
 
@@ -66,7 +69,14 @@ namespace Inventory_Management_System.Application.Features.ProductSupplierFeatur
                                               City = productSupplier.City ?? string.Empty,
                                               State = productSupplier.State ?? string.Empty,
                                               Country = productSupplier.Country ?? string.Empty,
-                                              PostalCode = productSupplier.PostalCode ?? string.Empty
+                                              PostalCode = productSupplier.PostalCode ?? string.Empty,
+
+                                              CreatedBy = productSupplier.CreatedBy,
+                                              CreatedAt = productSupplier.CreatedAt,
+                                              LastModifiedBy = productSupplier.LastModifiedBy,
+                                              LastModifiedAt = productSupplier.LastModifiedAt,
+                                              IsDeleted = productSupplier.IsDeleted ? "Yes" : "No",
+                                              DeletedAt = productSupplier.DeletedAt
 
                                           }).ToListAsync();
 

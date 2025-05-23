@@ -44,7 +44,7 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Comma
         public string? Supplier { get; set; }
 
         [Display(Name = "Is Deleted")]
-        public string? IsDeletedName { get; set; }
+        public string? IsDeleted { get; set; }
 
         [Display(Name = "Created At")]
         public DateTime? CreatedAt { get; set; }
@@ -57,9 +57,6 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Comma
 
         [Display(Name = "Last Modified By")]
         public string? LastModifiedBy { get; set; }
-
-        [Display(Name = "Is Deleted")]
-        public bool IsDeleted { get; set; }
 
         [Display(Name = "Deleted At")]
         public DateTime? DeletedAt { get; set; }
@@ -100,31 +97,27 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Comma
                                          on product.StockKeepingUnitId equals stockKeepingUnit.Id into stockKeepingUnits
                                          from stockKeepingUnit in stockKeepingUnits.DefaultIfEmpty() 
 
-                                         //join createdBy in _context.Users
-                                         //on product.CreatedBy equals createdBy.Id into createdBys
-                                         //from createdBy in createdBys.DefaultIfEmpty() 
-
-                                         //join LastModifiedBy in _context.Users
-                                         //on product.LastModifiedBy equals LastModifiedBy.Id into LastModifiedBys
-                                         //from LastModifiedBy in LastModifiedBys.DefaultIfEmpty() 
-
                                          select new ExportProductDetailsResponseVM()
                                          {
                                              Name = product.Name,
                                              Description = product.Description,
+
                                              Category = category != null ? category.Name : null, 
                                              Supplier = supplier != null ? supplier.DistributorName : null,
                                              StockKeepingUnit = stockKeepingUnit != null ? stockKeepingUnit.Name : null, 
+
                                              PricePerQuantity = product.PricePerQuantity,
                                              Quantity = product.Quantity,
                                              TotalPrice = product.TotalPrice,
-                                             IsDeletedName = product.IsDeleted ? "Yes" : "No",
                                              TotalQuantities = product.TotalQuantities,
-                                            // CreatedBy = createdBy != null ? createdBy.Name : null, 
-                                            // LastModifiedBy = lastUpdatedBy != null ? lastUpdatedBy.Name : null,
+
+                                             CreatedBy = product.CreatedBy,
                                              CreatedAt = product.CreatedAt,
+                                             LastModifiedBy = product.LastModifiedBy,
                                              LastModifiedAt = product.LastModifiedAt,
+                                             IsDeleted = product.IsDeleted ? "Yes" : "No",
                                              DeletedAt = product.DeletedAt
+
                                          }).ToListAsync(cancellationToken);
 
 

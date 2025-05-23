@@ -1,4 +1,5 @@
 ﻿using Inventory_Management_System.Application.Common.Response;
+using Inventory_Management_System.Application.Interfaces;
 using Inventory_Management_System.Domain;
 using Inventory_Management_System.Infrastructure.Interfaces;
 using MediatR;
@@ -55,10 +56,12 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Comma
     {
         private readonly IApplicationDbContext _dbContext;
         private readonly ILogger<AddOrUpdateOrDeleteProductHandler> _logger;
-        public AddOrUpdateOrDeleteProductHandler(IApplicationDbContext dbContext, ILogger<AddOrUpdateOrDeleteProductHandler> logger) 
+        private readonly ICurrentUserService _currentUserService;
+        public AddOrUpdateOrDeleteProductHandler(IApplicationDbContext dbContext, ILogger<AddOrUpdateOrDeleteProductHandler> logger, ICurrentUserService currentUserService) 
         {
             _dbContext = dbContext;
             _logger = logger;
+            _currentUserService = currentUserService;
         }
 
         public async Task<ResponseVm<AddOrUpdateOrDeleteProductVm>> Handle(AddOrUpdateOrDeleteProduct request, CancellationToken cancellationToken)
@@ -74,7 +77,7 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Comma
                     {
                         Id = Guid.NewGuid(),
                         CreatedAt = DateTime.UtcNow,
-                        CreatedBy = ""
+                        CreatedBy = _currentUserService.UserName
                     };
                     _dbContext.Products.Add(product);
                 }
@@ -84,7 +87,7 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Comma
                     if (product != null)
                     {
                         product.LastModifiedAt = DateTime.UtcNow;
-                        product.LastModifiedBy = "";
+                        product.LastModifiedBy = _currentUserService.UserName;
                     }
                 }
 

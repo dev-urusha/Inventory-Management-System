@@ -1,4 +1,5 @@
 ﻿using Inventory_Management_System.Application.Common.Response;
+using Inventory_Management_System.Domain.Common;
 using Inventory_Management_System.Infrastructure.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 namespace Inventory_Management_System.Application.Features.ProductFeatures.Queries
 {
     #region Response Model
-    public class GetProductByIdQueryResponseVM
+    public class GetProductByIdQueryResponseVM: BaseEntity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -30,6 +31,8 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Queri
 
         public Guid? SupplierId { get; set; }
         public string? SupplierName { get; set; }
+
+        public string? IsDeleted { get; set; }
     }
     #endregion
 
@@ -63,6 +66,7 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Queri
                                               Id = product.Id,
                                               Name = product.Name,
                                               Description = product.Description,
+
                                               Quantity = product.Quantity,
                                               PricePerQuantity = product.PricePerQuantity,
                                               TotalPrice = product.TotalPrice,
@@ -76,6 +80,13 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Queri
 
                                               SupplierId = product.SupplierId,
                                               SupplierName = product.SupplierId != null ? _context.ProductSuppliers.FirstOrDefault(x => x.Id == product.SupplierId).DistributorName : null,
+
+                                              CreatedBy = product.CreatedBy,
+                                              CreatedAt = product.CreatedAt,
+                                              LastModifiedBy = product.LastModifiedBy,
+                                              LastModifiedAt = product.LastModifiedAt,
+                                              IsDeleted = product.IsDeleted ? "Yes" : "No",
+                                              DeletedAt = product.DeletedAt
 
                                           }).FirstOrDefaultAsync();
 
