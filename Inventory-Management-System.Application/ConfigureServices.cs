@@ -38,6 +38,8 @@ public static class ConfigureServices
         services.AddSingleton<IEmailSender, SendEmailService>();
         services.AddSingleton<IExportExcelService, ExportExcelService>();
 
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+
         return services;
     }
 }

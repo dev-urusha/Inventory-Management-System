@@ -1,5 +1,6 @@
 ﻿using Inventory_Management_System.Application.Common.Response;
 using Inventory_Management_System.Application.Features.ProductFeatures.Commands;
+using Inventory_Management_System.Application.Interfaces;
 using Inventory_Management_System.Domain;
 using Inventory_Management_System.Infrastructure.Interfaces;
 using MediatR;
@@ -56,10 +57,13 @@ namespace Inventory_Management_System.Application.Features.ProductSupplierFeatur
     {
         private readonly IApplicationDbContext _dbContext;
         private readonly ILogger<AddOrUpdateOrDeleteProductHandler> _logger;
-        public AddOrUpdateOrDeleteProductSupplierHandler(IApplicationDbContext dbContext, ILogger<AddOrUpdateOrDeleteProductHandler> logger)
+        private readonly ICurrentUserService _currentUserService;
+
+        public AddOrUpdateOrDeleteProductSupplierHandler(IApplicationDbContext dbContext, ILogger<AddOrUpdateOrDeleteProductHandler> logger, ICurrentUserService currentUserService)
         {
             _dbContext = dbContext;
             _logger = logger;
+            _currentUserService = currentUserService;
         }
 
         public async Task<ResponseVm<AddOrUpdateOrDeleteProductSupplierResponseVM>> Handle(AddOrUpdateOrDeleteProductSupplier request, CancellationToken cancellationToken)
@@ -75,7 +79,7 @@ namespace Inventory_Management_System.Application.Features.ProductSupplierFeatur
                     {
                         Id = Guid.NewGuid(),
                         CreatedAt = DateTime.UtcNow,
-                        CreatedBy = ""
+                        CreatedBy = _currentUserService.UserName
                     };
                     _dbContext.ProductSuppliers.Add(productSupplier);
                 }
@@ -85,7 +89,7 @@ namespace Inventory_Management_System.Application.Features.ProductSupplierFeatur
                     if (productSupplier != null)
                     {
                         productSupplier.LastModifiedAt = DateTime.UtcNow;
-                        productSupplier.LastModifiedBy = "";
+                        productSupplier.LastModifiedBy = _currentUserService.UserName;
                     }
                 }
 

@@ -44,9 +44,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-//builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-//builder.Services.AddScoped<SendEmailService>();
-//builder.Services.AddSingleton<IEmailSender, SendEmailService>();
+// Register IHttpContextAccessor
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
 

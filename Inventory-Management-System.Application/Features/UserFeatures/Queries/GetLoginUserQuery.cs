@@ -65,6 +65,7 @@ namespace Inventory_Management_System.Application.Features.UserFeatures.Queries
             var authClaims = new List<Claim>
             {
                 new Claim("http://schemas.microsoft.com/identity/claims/objectidentifier", user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Email, user.Username),
             };
 

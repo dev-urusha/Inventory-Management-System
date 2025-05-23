@@ -1,4 +1,5 @@
 ﻿using Inventory_Management_System.Application.Common.Response;
+using Inventory_Management_System.Application.Interfaces;
 using Inventory_Management_System.Domain;
 using Inventory_Management_System.Infrastructure.Interfaces;
 using MediatR;
@@ -28,6 +29,8 @@ namespace Inventory_Management_System.Application.Features.RoleFeatures.Commands
         public string Name { get; set; }
 
         public string? Description { get; set; }
+        public bool? IsDeleted { get; set; }
+
     }
     #endregion
 
@@ -36,10 +39,13 @@ namespace Inventory_Management_System.Application.Features.RoleFeatures.Commands
     {
         private readonly ILogger<SaveRoleCommandHandler> _logger;
         private readonly IApplicationDbContext _context;
-        public SaveRoleCommandHandler(ILogger<SaveRoleCommandHandler> logger, IApplicationDbContext context) 
+        private readonly ICurrentUserService _currentUserService;
+
+        public SaveRoleCommandHandler(ILogger<SaveRoleCommandHandler> logger, IApplicationDbContext context, ICurrentUserService currentUserService) 
         {
             _logger = logger;
             _context = context;
+            _currentUserService = currentUserService;
         }
 
         public async Task<ResponseVm<SaveRoleCommandVm>> Handle(SaveRoleCommand command, CancellationToken cancellationToken)
@@ -56,7 +62,8 @@ namespace Inventory_Management_System.Application.Features.RoleFeatures.Commands
                         Name = command.Name,
                         Description = command.Description,
                         CreatedAt = DateTime.UtcNow,
-                        IsDeleted = false
+                        IsDeleted = false,
+                        CreatedBy = _currentUserService.UserName
                     };
                     _context.Roles.Add(role);
                 }
@@ -71,6 +78,8 @@ namespace Inventory_Management_System.Application.Features.RoleFeatures.Commands
                         role.Name = command.Name;
                         role.Description = command.Description;
                         role.LastModifiedAt = DateTime.UtcNow;
+                        role.LastModifiedBy = _currentUserService.UserName;
+                        role.IsDeleted = command.IsDeleted ?? role.IsDeleted;
                         _context.Roles.Update(role);
                     }
                 }

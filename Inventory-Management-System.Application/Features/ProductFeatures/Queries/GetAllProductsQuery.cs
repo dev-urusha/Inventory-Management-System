@@ -1,6 +1,7 @@
 ﻿using Inventory_Management_System.Application.Common.Response;
 using Inventory_Management_System.Application.Features.ProductFeatures.Commands;
 using Inventory_Management_System.Domain;
+using Inventory_Management_System.Domain.Common;
 using Inventory_Management_System.Infrastructure.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 namespace Inventory_Management_System.Application.Features.ProductFeatures.Queries
 {
     #region Response Model
-    public class GetAllProductsResponseVM
+    public class GetAllProductsResponseVM: BaseEntity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -33,6 +34,9 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Queri
 
         public Guid? SupplierId { get; set; }
         public string? SupplierName { get; set; }
+
+        public string? IsDeleted { get; set; }
+
     }
     #endregion
 
@@ -76,6 +80,13 @@ namespace Inventory_Management_System.Application.Features.ProductFeatures.Queri
 
                                           SupplierId = product.SupplierId,
                                           SupplierName = product.SupplierId != null ? _context.ProductSuppliers.FirstOrDefault(x => x.Id == product.SupplierId).DistributorName : null,
+
+                                          CreatedBy = product.CreatedBy,
+                                          CreatedAt = product.CreatedAt,
+                                          LastModifiedBy = product.LastModifiedBy,
+                                          LastModifiedAt = product.LastModifiedAt,
+                                          IsDeleted = product.IsDeleted ? "Yes" : "No",
+                                          DeletedAt = product.DeletedAt
 
                                       }).ToListAsync();
 
