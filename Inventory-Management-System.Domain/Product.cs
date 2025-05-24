@@ -38,5 +38,9 @@ namespace Inventory_Management_System.Domain
 
         public bool? HasLimitedStock { get; set; }
 
+        [ForeignKey(nameof(Status))]
+        public Guid? StatusId { get; set; }
+        public Status? Status { get; set; }
+
     }
 }

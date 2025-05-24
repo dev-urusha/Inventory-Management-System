@@ -25,6 +25,9 @@ namespace Inventory_Management_System.Infrastructure.Services
         public DbSet<ProductSupplier> ProductSuppliers => Set<ProductSupplier>();
         public DbSet<Product> Products => Set<Product>();
 
+        public DbSet<Customer> Customers => Set<Customer>();
+        public DbSet<Order> Orders => Set<Order>();
+        public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
         public virtual DbSet<T> GetDbSet<T>() where T : BaseEntity
         {

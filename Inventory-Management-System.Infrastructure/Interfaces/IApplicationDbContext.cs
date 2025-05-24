@@ -20,6 +20,10 @@ namespace Inventory_Management_System.Infrastructure.Interfaces
         public DbSet<ProductSupplier> ProductSuppliers { get; }
         public DbSet<Product> Products { get; }
 
+        public DbSet<Customer> Customers { get; }
+        public DbSet<Order> Orders { get; }
+        public DbSet<OrderItem> OrderItems { get; }
+
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         DbSet<T> GetDbSet<T>() where T : BaseEntity;

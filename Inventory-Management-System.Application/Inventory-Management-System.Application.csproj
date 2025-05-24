@@ -22,4 +22,12 @@
     <ProjectReference Include="..\Inventory-Management-System.Infrastructure\Inventory-Management-System.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\CustomerFeatures\Validators\" />
+    <Folder Include="Features\ProductFeatures\Validators\" />
+    <Folder Include="Features\ProductSupplierFeatures\Validators\" />
+    <Folder Include="Features\RoleFeatures\Validators\" />
+    <Folder Include="Features\UserFeatures\Validators\" />
+  </ItemGroup>
+
 </Project>

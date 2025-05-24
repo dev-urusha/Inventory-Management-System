@@ -3,6 +3,7 @@ using System;
 using Inventory_Management_System.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InventoryManagementSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250524063753_tables_order_customer_orderItems_added")]
+    partial class tablesordercustomerorderItemsadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,9 +263,6 @@ namespace InventoryManagementSystem.Infrastructure.Migrations
                     b.Property<decimal>("Quantity")
                         .HasColumnType("numeric");
 
-                    b.Property<Guid?>("StatusId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid?>("StockKeepingUnitId")
                         .HasColumnType("uuid");
 
@@ -278,8 +278,6 @@ namespace InventoryManagementSystem.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("StatusId");
 
                     b.HasIndex("StockKeepingUnitId");
 
@@ -635,10 +633,6 @@ namespace InventoryManagementSystem.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("Inventory_Management_System.Domain.Status", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId");
-
                     b.HasOne("Inventory_Management_System.Domain.StockKeepingUnit", "StockKeepingUnit")
                         .WithMany()
                         .HasForeignKey("StockKeepingUnitId");
@@ -648,8 +642,6 @@ namespace InventoryManagementSystem.Infrastructure.Migrations
                         .HasForeignKey("SupplierId");
 
                     b.Navigation("Category");
-
-                    b.Navigation("Status");
 
                     b.Navigation("StockKeepingUnit");
 
